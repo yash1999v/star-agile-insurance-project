@@ -32,3 +32,169 @@ build/
 
 ### VS Code ###
 .vscode/
+HELP.md
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+
+
+# ----------------------------------------
+# 🔐 Secrets & Credentials
+# ----------------------------------------
+*.pem
+*.key
+*.crt
+*.pub
+*.env
+*.tfvars
+*.txt
+*.kube/config
+secrets.yml
+vault_pass.txt
+id_rsa*
+*.jks
+*.p12
+
+# ----------------------------------------
+# 📁 Terraform
+# ----------------------------------------
+*.tfstate
+*.tfstate.*
+.terraform/
+crash.log
+override.tf
+override.tf.json
+terraform.tfvars
+*.backup
+
+# ----------------------------------------
+# 🧩 Ansible
+# ----------------------------------------
+*.retry
+*.vault
+*.log
+ansible.cfg~
+host_vars/*.yml~
+group_vars/*.yml~
+vault_pass.txt
+
+# ----------------------------------------
+# ⚙️ Jenkins
+# ----------------------------------------
+jenkins_home/
+secrets/
+jobs/*/builds/
+jobs/*/workspace/
+*.hpi
+*.jpi
+*.war
+jenkins_admin_password.txt
+
+# ----------------------------------------
+# 🐳 Docker
+# ----------------------------------------
+**/docker-compose.override.yml
+.docker/
+.dockerignore
+Dockerfile~  # Backup or temp Dockerfile
+*.bak
+
+# ----------------------------------------
+# ☸️ Kubernetes
+# ----------------------------------------
+*.yaml~
+.kube/
+kubeconfig
+helm-charts/.terraform/
+
+# ----------------------------------------
+# 🔃 Python (if scripting involved)
+# ----------------------------------------
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+.eggs/
+.venv/
+venv/
+.env/
+.Python
+pip-log.txt
+pip-delete-this-directory.txt
+
+# ----------------------------------------
+# 🧪 Shell Scripts & Output
+# ----------------------------------------
+*.log
+*.out
+*.bak
+*.swp
+*.tmp
+nohup.out
+
+# ----------------------------------------
+# 💻 OS Generated Files
+# ----------------------------------------
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/
+*.iml
+*.sublime-project
+*.sublime-workspace
+
+# ----------------------------------------
+# 📦 Node.js (if using frontend/dashboard)
+# ----------------------------------------
+node_modules/
+npm-debug.log
+yarn-error.log
+dist/
+build/
+coverage/
+
+# ----------------------------------------
+# 🗂️ Archives / Compressed Files
+# ----------------------------------------
+*.zip
+*.tar
+*.tar.gz
+*.rar
+*.7z
+terraform.tfstate
+terraform.tfstate.backup
+terraform.tfvars
+imported-ec2.txt
+*password*
+**password**
