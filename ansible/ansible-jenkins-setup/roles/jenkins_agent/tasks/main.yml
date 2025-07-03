@@ -1,0 +1,81 @@
+---
+- name: Update apt packages
+  apt:
+    update_cache: yes
+
+- name: Create build user with sudo privileges
+  user:
+    name: "{{ agent_user }}"
+    shell: /bin/bash
+    groups: sudo
+    append: yes
+    state: present
+
+- name: Ensure .ssh directory exists for agent user
+  file:
+    path: "/home/{{ agent_user }}/.ssh"
+    state: directory
+    owner: "{{ agent_user }}"
+    group: "{{ agent_user }}"
+    mode: '0700'
+
+# Optional: Install prerequisites for Docker
+- name: Install Docker dependencies
+  apt:
+    name:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - gnupg
+      - lsb-release
+    state: present
+
+- name: Add Docker GPG key
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+- name: Add Docker apt repository
+  apt_repository:
+    repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
+    state: present
+    filename: docker
+
+- name: Update apt cache after adding Docker repo
+  apt:
+    update_cache: yes
+
+# Install the rest of the build tools (excluding Docker)
+- name: Install agent build tools (excluding docker)
+  apt:
+    name: "{{ agent_software | difference(['docker']) }}"
+    state: present
+
+# Install Docker from official repo
+- name: Install Docker CE packages
+  apt:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+    state: present
+
+# Optional: Allow builduser to use docker without sudo
+- name: Add {{ agent_user }} to docker group
+  user:
+    name: "{{ agent_user }}"
+    groups: docker
+    append: yes
+
+- name: Add Jenkins master's public key to authorized_keys
+  authorized_key:
+    user: "{{ agent_user }}"
+    key: "{{ lookup('file', 'jenkins_master.pub') }}"
+    state: present
+    
+- name: Add {{ agent_user }} to docker group
+  user:
+    name: "{{ agent_user }}"
+    groups: docker
+    append: yes
+

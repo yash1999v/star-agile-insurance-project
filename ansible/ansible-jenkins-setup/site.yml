@@ -1,0 +1,11 @@
+- name: Setup Jenkins Master
+  hosts: jenkins_master
+  become: true
+  roles:
+    - jenkins_master
+
+- name: Setup Jenkins Agent(s)
+  hosts: jenkins_agent
+  become: true
+  roles:
+    - jenkins_agent

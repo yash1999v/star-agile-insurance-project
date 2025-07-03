@@ -1,0 +1,2 @@
+jenkins_user: jenkins
+jenkins_ssh_key_path: "/var/lib/{{ jenkins_user }}/.ssh/id_rsa"

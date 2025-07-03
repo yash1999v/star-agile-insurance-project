@@ -1,0 +1,10 @@
+jenkins_user: ubuntu
+jenkins_ssh_key_path: "/tmp/jenkins_ssh_key"
+
+agent_user: builduser
+agent_software:
+  - openjdk-17-jdk
+  - openjdk-17-jre
+  - git
+  - maven
+  

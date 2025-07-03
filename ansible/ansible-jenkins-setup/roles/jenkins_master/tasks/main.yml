@@ -1,0 +1,64 @@
+---
+- name: Update apt packages
+  apt:
+    update_cache: yes
+
+- name: Install dependencies
+  apt:
+    name:
+      - openjdk-17-jre
+      - git
+      - python3
+    state: present
+
+- name: Add Jenkins apt key
+  apt_key:
+    url: https://pkg.jenkins.io/debian-stable/jenkins.io.key
+    state: present
+
+- name: Add Jenkins repository
+  apt_repository:
+    repo: "deb https://pkg.jenkins.io/debian-stable binary/"
+    state: present
+
+- name: Install Jenkins
+  apt:
+    name: jenkins
+    state: present
+
+- name: Ensure Jenkins is started and enabled
+  systemd:
+    name: jenkins
+    enabled: true
+    state: started
+
+- name: Ensure .ssh directory exists for Jenkins user
+  file:
+    path: "/var/lib/{{ jenkins_user }}/.ssh"
+    state: directory
+    owner: "{{ jenkins_user }}"
+    group: "{{ jenkins_user }}"
+    mode: '0700'
+
+- name: Generate SSH keypair if not present
+  openssh_keypair:
+    path: "{{ jenkins_ssh_key_path }}"
+    owner: "{{ jenkins_user }}"
+    group: "{{ jenkins_user }}"
+    type: ecdsa
+    size: 521
+  when: not lookup('file', jenkins_ssh_key_path + '.pub', errors='ignore')
+
+- name: Read Jenkins public key from remote host
+  slurp:
+    src: "{{ jenkins_ssh_key_path }}.pub"
+  register: jenkins_pubkey_data
+
+- name: Save Jenkins public key locally for reuse
+  delegate_to: localhost
+  become: false
+  copy:
+    content: "{{ jenkins_pubkey_data.content | b64decode }}"
+    dest: "./jenkins_master.pub"
+    mode: '0644'
+
